@@ -1,0 +1,13 @@
+{
+  "name": "Signal",
+  "tree": {
+    "$className": "DataModel",
+    
+    "ReplicatedStorage": {
+      "Packages": { "$path": "Packages" }
+    },
+    "ServerScriptService": {
+      "Signal": { "$path": "src" }
+    }
+  }
+}
