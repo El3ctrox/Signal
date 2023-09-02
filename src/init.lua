@@ -55,10 +55,10 @@ function Signal.wrap(bindableEvent: BindableEvent)
 	]=]
 	function self:once(callback: (...any) -> ()): Connection
 		
-		local connection; connection = self:Connect(function(...)
+		local connection; connection = self:connect(function(...)
 			
 			callback(...)
-			connection:Disconnect()
+			connection:disconnect()
 		end)
 		
 		return connection
@@ -143,7 +143,7 @@ function Signal.wrap(bindableEvent: BindableEvent)
 	]=]
 	function self:_disconnectAll()
 		
-		for connection in connections do connection:Disconnect() end
+		for connection in connections do connection:disconnect() end
 	end
 	function self:_remove(connection: Connection)
 		

@@ -42,7 +42,7 @@ function Connection.new(signal: callbacks_container, callback: (...any) -> any..
 	]=]
 	function self:disconnect()
 		
-		self.IsConnected = false
+		self.isConnected = false
 		signal:_remove(self)
 	end
 	
@@ -54,14 +54,14 @@ function Connection.new(signal: callbacks_container, callback: (...any) -> any..
 	]=]
 	function self:reconnect()
 		
-		self.IsConnected = true
+		self.isConnected = true
 		signal:_add(self)
 	end
 	
 	--// Behaviour
 	function meta:__tostring()
 		
-		return `Connection({if self.IsConnected then "connected" else "disconnected"} to '{signal:GetFullName()}')`
+		return `Connection({if self.isConnected then "connected" else "disconnected"} to '{signal:GetFullName()}')`
 	end
 	
 	--// End
