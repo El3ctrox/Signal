@@ -51,7 +51,7 @@ function Signal.wrap(bindableEvent: BindableEvent)
 		@return Connection		-- object to handle the callback, like disconnect the callback or reconnect
 		
 		Create a listener/observer for signal.
-		Like Signal:Connect, but the connection is :Disconnect()'ed after triggered, but can be :Reconnect()'ed multiple times.
+		Like [Signal:connect](/api/Signal#connect), but the connection is [Connection:disconnect](/api/Connection#disconnect)'ed after triggered, but can be [Signal:reconnect](/api/Signal#reconnect)'ed multiple times.
 	]=]
 	function self:once(callback: (...any) -> ()): Connection
 		
@@ -139,7 +139,7 @@ function Signal.wrap(bindableEvent: BindableEvent)
 		@within Signal
 		@method _disconnectAll
 		
-		Does :Disconnect() in all listeners.
+		Does [Signal:disconnect](/api/Signal#disconnect) in all listeners.
 	]=]
 	function self:_disconnectAll()
 		
