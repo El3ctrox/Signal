@@ -1,0 +1,16 @@
+{
+  "name": "signal",
+  "tree": {
+    "$className": "DataModel",
+    
+    "ReplicatedStorage": {
+      "Packages": {
+        "$ignoreUnknownInstances": false,
+        "$className": "Folder",
+        "$path": "Packages",
+        
+        "Signal": { "$path": "src" }
+      }
+    }
+  }
+}

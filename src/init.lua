@@ -22,7 +22,7 @@ local signals = setmetatable({}, { __mode = "k" })
 function Signal.wrap(bindableEvent: BindableEvent)
 	
 	local meta = { __metatable = "locked" }
-    local self = setmetatable({ roblox = bindableEvent }, meta)
+	local self = setmetatable({ roblox = bindableEvent }, meta)
 	
 	local event = bindableEvent.Event
 	local connections = {}
