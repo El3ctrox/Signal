@@ -23,7 +23,7 @@ type callbacks_container = {
 }
 function Connection.new(signal: callbacks_container, callback: (...any) -> any...)
 	
-	local meta = { __metatable = "locked", __call = callback }
+	local meta = { __metatable = "locked" }
 	local self = setmetatable({ type = "Connection", callback = callback }, meta)
 	
 	--[=[
@@ -62,6 +62,10 @@ function Connection.new(signal: callbacks_container, callback: (...any) -> any..
 	function meta:__tostring()
 		
 		return `Connection({if self.isConnected then "connected" else "disconnected"} to '{signal:GetFullName()}')`
+	end
+	function meta:__call(...)
+		
+		return callback(...)
 	end
 	
 	--// End
