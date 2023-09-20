@@ -40,7 +40,7 @@ function Signal.wrap(bindableEvent: BindableEvent)
 	function self:connect(callback: (...any) -> ()): Connection
 		
 		local connection = Connection.new(self, callback)
-		connections[connection] = callback
+		self:_add(connection)
 		
 		return connection
 	end
@@ -151,7 +151,7 @@ function Signal.wrap(bindableEvent: BindableEvent)
 	end
 	function self:_add(connection: Connection)
 		
-		connections[connection] = true
+		connections[connection] = connection.callback
 	end
 	
 	--// Behaviours
