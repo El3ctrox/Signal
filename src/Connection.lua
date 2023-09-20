@@ -24,7 +24,7 @@ type callbacks_container = {
 function Connection.new(signal: callbacks_container, callback: (...any) -> any...)
 	
 	local meta = { __metatable = "locked", __call = callback }
-	local self = setmetatable({ callback = callback }, meta)
+	local self = setmetatable({ type = "Connection", callback = callback }, meta)
 	
 	--[=[
 		@within Connection
