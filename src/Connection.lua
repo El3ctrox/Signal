@@ -18,13 +18,14 @@ local Connection = {}
     Create a connection binded to given `signal`
 ]=]
 type callbacks_container = {
-    remove: (self: callbacks_container, connection: Connection) -> (),
-    add: (self: callbacks_container, connection: Connection) -> (),
+    _remove: (self: callbacks_container, connection: Connection) -> (),
+    _add: (self: callbacks_container, connection: Connection) -> (),
+    roblox: Instance
 }
-function Connection.new(signal: callbacks_container, callback: (...any) -> any...)
+function Connection.new(signal: callbacks_container, callback: (...any) -> ...any)
     
     local meta = { __metatable = "locked" }
-    local self = setmetatable({ type = "Connection", callback = callback }, meta)
+    local self = setmetatable({ type = "Connection" }, meta)
     
     --[=[
         @within Connection
@@ -33,6 +34,14 @@ function Connection.new(signal: callbacks_container, callback: (...any) -> any..
         Determine if connection is connected or not
     ]=]
     self.isConnected = true
+    
+    --[=[
+        @within Connection
+        @prop callback
+        
+        The callback received when :connect'ed
+    ]=]
+    self.callback = callback
     
     --[=[
         @within Connection
@@ -61,7 +70,7 @@ function Connection.new(signal: callbacks_container, callback: (...any) -> any..
     --// Behaviour
     function meta:__tostring()
         
-        return `Connection({if self.isConnected then "connected" else "disconnected"} to '{signal:GetFullName()}')`
+        return `Connection({if self.isConnected then "connected" else "disconnected"} to '{signal.roblox:GetFullName()}')`
     end
     function meta:__call(...)
         
@@ -71,7 +80,12 @@ function Connection.new(signal: callbacks_container, callback: (...any) -> any..
     --// End
     return self
 end
+export type Connection = { type: 'Connection',
+    callback: (...any) -> ...any,
+    isConnected: boolean,
+    disconnect: (any) -> (),
+    reconnect: (any) -> (),
+}
 
 --// End
-export type Connection = typeof(Connection.new())
 return Connection

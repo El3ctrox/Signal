@@ -94,7 +94,7 @@ function Signal.wrap(bindableEvent: BindableEvent)
         Wait until the signal was fired and returns your data.
         [BindableEvent](https://create.roblox.com/docs/reference/engine/classes/BindableEvent) is used here to avoid bad tracebacks when some error after thread be resumed.
     ]=]
-    function self:await(): any...
+    function self:await(): ...any
         
         event:Wait()
         return unpack(data)
@@ -155,7 +155,7 @@ function Signal.wrap(bindableEvent: BindableEvent)
     end
     
     --// Behaviours
-    function self:__tostring()
+    function meta:__tostring()
         
         return `Signal('{bindableEvent:GetFullName()}')`
     end
@@ -187,6 +187,15 @@ function Signal.wrap(bindableEvent: BindableEvent)
     signals[bindableEvent] = self
     return self
 end
+export type Signal<data... = ...any> = {
+    connect: (any, callback: (data...) -> ()) -> Connection<data...>,
+    once: (any, callback: (data...) -> ()) -> Connection<data...>,
+    awaitWithinTimeout: (any, timeout: number) -> (boolean, data...),
+    await: (any) -> data...,
+    _tryEmit: (any, data...) -> boolean,
+    _emit: (any, data...) -> (),
+}
+
 --[=[
     @within Signal
     @function new
@@ -218,10 +227,4 @@ end
 
 --// End
 export type Connection = Connection.Connection
-export type Signal<Data...> = typeof(Signal.new()) & {
-    Connect: (callback: (Data...) -> ()) -> Connection,
-    Once: (callback: (Data...) -> ()) -> Connection,
-    Wait: () -> Data...,
-    WaitWithinTimeout: (timeout: number) -> Data...,
-}
 return Signal
