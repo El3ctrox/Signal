@@ -57,8 +57,8 @@ function Signal.wrap(bindableEvent: BindableEvent)
         
         local connection; connection = self:connect(function(...)
             
-            callback(...)
             connection:disconnect()
+            callback(...)
         end)
         
         return connection
