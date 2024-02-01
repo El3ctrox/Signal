@@ -25,7 +25,7 @@ function Signal.wrap(bindableEvent: BindableEvent)
     local self = setmetatable({ roblox = bindableEvent }, meta)
     
     local event = bindableEvent.Event
-    local connections = {}
+    local connections = {} :: { [Connection]: (...any) -> () }
     local data = {}
     
     --[=[
@@ -167,29 +167,29 @@ function Signal.wrap(bindableEvent: BindableEvent)
         self:_disconnectAll()
         
         task.wait()
-        table.clear(self)
+        table.clear(self :: any)
         
-        function meta:__newindex(index: string, value: any)
+        function meta.__newindex(_,index: string, value: any)
             
             error(`attempt to write '{index}' to {value} on {self}`)
         end
-        function meta:__index(index: string)
+        function meta.__index(_,index: string)
             
             error(`attempt to read '{index}' on {self}`)
         end
-        function meta:__tostring()
+        function meta.__tostring(_)
             
             return `destroyed {label}`
         end
     end)
     
     --// End
-    signals[bindableEvent] = self
-    return self
+    signals[bindableEvent] = self :: any
+    return (self :: any) :: Signal
 end
 export type Signal<data... = ...any> = {
-    connect: (any, callback: (data...) -> ()) -> Connection<data...>,
-    once: (any, callback: (data...) -> ()) -> Connection<data...>,
+    connect: (any, callback: (data...) -> ()) -> Connection,
+    once: (any, callback: (data...) -> ()) -> Connection,
     awaitWithinTimeout: (any, timeout: number) -> (boolean, data...),
     await: (any) -> data...,
     _tryEmit: (any, data...) -> boolean,

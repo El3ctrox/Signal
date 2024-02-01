@@ -78,10 +78,10 @@ function Connection.new(signal: callbacks_container, callback: (...any) -> ...an
     end
     
     --// End
-    return self
+    return (self :: any) :: Connection
 end
-export type Connection = { type: 'Connection',
-    callback: (...any) -> ...any,
+export type Connection<data... = ...any> = { type: 'Connection',
+    callback: (data...) -> (),
     isConnected: boolean,
     disconnect: (any) -> (),
     reconnect: (any) -> (),
