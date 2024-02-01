@@ -124,9 +124,15 @@ function Signal.wrap(bindableEvent: BindableEvent)
     ]=]
     function self:_emit(...: any)
         
-        for connection, callback in connections do
+        local cancelMessage: string?
+        local function cancel(message)
             
-            callback(...)
+            cancelMessage = debug.traceback(message, 2)
+        end
+        for _,callback in connections do
+            
+            task.spawn(xpcall, callback, cancel,...)
+            assert(not cancelMessage, cancelMessage)
         end
         
         data = {...}
