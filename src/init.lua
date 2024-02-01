@@ -90,11 +90,14 @@ function Signal.wrap(bindableEvent: BindableEvent)
     --[=[
         @within Signal
         @method await
+        @param params { timeout: number? }?
         
         Wait until the signal was fired and returns your data.
         [BindableEvent](https://create.roblox.com/docs/reference/engine/classes/BindableEvent) is used here to avoid bad tracebacks when some error after thread be resumed.
     ]=]
-    function self:await(): ...any
+    function self:await(params: { timeout: number? }?): ...any
+        
+        if params and params.timeout then return select(2, self:awaitWithinTimeout()) end
         
         event:Wait()
         return unpack(data)
